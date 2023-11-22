@@ -1,1 +1,7 @@
-Topicos Avancados Js
+    Topicos Avancados Js
+O que você irá aprender 
+    Tratamento de Erros
+    Expressões regulares
+    Programação Assincrona
+    Promises
+    Requisições HTTP    
