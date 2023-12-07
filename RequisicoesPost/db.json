@@ -1,0 +1,16 @@
+{
+    "articles" : [
+        {
+            "id" : 1,
+            "title": "Olá , Mundo!",
+            "content" : "Lorem ipsun",
+            "author" : "Magno"
+        },
+        {
+            "id" : 2,
+            "title": "Requisições POST com Js",
+            "content" : "Lorem ipsun",
+            "author" : "Magno"
+        }
+    ]
+}
