@@ -31,3 +31,34 @@ document.addEventListener('DOMContentLoaded' , () => {
     fetchArticles()
 })
 //Requisição Post
+
+const form = document.querySelector('form')
+
+form.addEventListener('submit' , async (ev) => {
+    ev.preventDefault()
+
+    const articleData = {
+        title : document.querySelector('#title').value, // Pegando o valor do input
+        author : document.querySelector('#author').value, // Pegando o valor do input
+        content : document.querySelector('#content').value // Pegando o valor do input
+    }
+
+    //Enviar esse objeto na requisição
+
+    const response = await fetch('http://localhost:3000/articles' , {
+        method: 'POST',
+       //Cabecalho da requisicao serve para passar informações para o servidor 
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(articleData)
+    })
+
+    const savedArticle = await response.json()
+    form.reset()
+    //Funcao que renderizar os artigos
+    renderArticle(savedArticle)
+
+    console.log('savedArticle',savedArticle)
+
+})
