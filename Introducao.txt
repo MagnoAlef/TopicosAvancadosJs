@@ -6,4 +6,4 @@ O que você irá aprender
     Promises
     Requisições HTTP    
 
-Proxima aula - > 28
+Proxima aula - > 30
