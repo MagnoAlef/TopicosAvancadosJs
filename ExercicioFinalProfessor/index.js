@@ -41,9 +41,11 @@ function renderTransaction(transaction) {
     const container = createTransactionContainer(transaction.id)
     const title = createTransactionTitle(transaction.name)
     const amount = createTransactionAmount(transaction.amount)
+    const editBtn = createEditTransactionBtn(transaction)
+    const deleteBtn = createDeleteTransactionButton(transaction.id)
   
     document.querySelector('#transactions').append(container)
-    container.append(title, amount)
+    container.append(title, amount, editBtn , deleteBtn)
   }
 
   async function fetchTransactions() {
@@ -76,20 +78,38 @@ async function setup() {
 
 async function saveTransaction(ev) {
   ev.preventDefault()
-
+  const id = document.querySelector('#id').value
   const name = document.querySelector('#name').value
   const amount = parseFloat(document.querySelector('#amount').value)
 
-  const response = await fetch('http://localhost:3000/transactions', {
-    method: 'POST',
+  if(id){
+  // Editar a transação
+  const response = await fetch(`http://localhost:3000/transactions/${id}`, {
+    method: 'PUT', 
     body: JSON.stringify({ name, amount }),
     headers: {
       'Content-Type': 'application/json'
+    }})
+    const transaction = await response.json()
+    const indexToRemove = transactions.findIndex((t) => t.id === id)
+    transactions.splice(indexToRemove,1, transaction)
+    document.querySelector(`#transaction-${id}`).remove()
+    renderTransaction(transaction)
     }
-  })
-  const transaction = await response.json()
-  transactions.push(transaction)
-  renderTransaction(transaction)
+  else{
+    const response = await fetch('http://localhost:3000/transactions', {
+      method: 'POST',
+      body: JSON.stringify({ name, amount }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const transaction = await response.json()
+    transactions.push(transaction)
+    renderTransaction(transaction)
+
+  }
+
 
   ev.target.reset()
   updateBalance()
@@ -97,7 +117,7 @@ async function saveTransaction(ev) {
 
 // ...
 
-document.addEventListener('DOMContentLoaded', setup)
+// document.addEventListener('DOMContentLoaded', setup)
 document.querySelector('form').addEventListener('submit', saveTransaction)
 
 // ...
